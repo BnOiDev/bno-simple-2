@@ -5,7 +5,7 @@ function Footer() {
     <section id="footer" className={styles.container}>
       <div>
         <p>
-          Do it while you learn and learn while you do it!
+          Faça enquanto aprende e aprenda enquanto faz!
         </p>
       </div>
       <p>

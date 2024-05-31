@@ -58,7 +58,7 @@ function Hero() {
           Laravel, PHP, Vue.js, PL/SQL e Node.js.
         </p>
         <a href={CV} download>
-          <button className="hover">Resume</button>
+          <button className="hover">Download CV</button>
         </a>
       </div>
     </section>
