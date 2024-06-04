@@ -1,47 +1,72 @@
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from 'react';
 import styles from './SkillsStyles.module.css';
-import checkMarkIconDark from '../../assets/checkmark-dark.svg';
-import checkMarkIconLight from '../../assets/checkmark-light.svg';
-import SkillList from '../../common/SkillList';
 import { useTheme } from '../../common/ThemeContext';
+import SkillList from '../../common/SkillList';
 
 function Skills() {
   const { theme } = useTheme();
-  const checkMarkIcon = theme === 'light' ? checkMarkIconLight : checkMarkIconDark;
+  const iconPrefix = theme === 'plain' ? 'plain' : 'original';
+  const devIconBaseUrl = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/';
+
+  const skillsByCategory = [
+    {
+      title: 'Todos',
+      skills: ['html5', 'css3', 'javascript', 'typescript', 'vuejs', 'react', 'nextjs', 'nodejs', 'python', 'laravel', 'lumen', 'json', 'tailwindcss', 'bootstrap', 'rabbitmq', 'docker', 'oracle', 'mysql', 'postgresql', 'git', 'gitlab']
+    },
+    {
+      title: 'Arquitetura de Software',
+      skills: ['nodejs', 'laravel', 'lumen', 'docker']
+    },
+    {
+      title: 'Back-End',
+      skills: ['nodejs', 'python', 'laravel', 'lumen', 'php', 'mysql', 'postgresql' , 'oracle']
+    },
+    {
+      title: 'Front-End',
+      skills: ['html5', 'css3', 'javascript', 'typescript', 'vuejs', 'react', 'nextjs', 'tailwindcss', 'bootstrap']
+    },
+    {
+      title: 'Banco de Dados',
+      skills: ['oracle', 'mysql', 'postgresql']
+    }
+  ];
+
+  // Estado para armazenar a categoria selecionada
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  // Função para alterar a categoria selecionada
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <section id="skills" className={styles.container}>
-      <h1 className="sectionTitle">Skills</h1>
-      <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="HTML" />
-        <SkillList src={checkMarkIcon} skill="CSS" />
-        <SkillList src={checkMarkIcon} skill="JavaScript" />
-        <SkillList src={checkMarkIcon} skill="TypeScript" />
-        <SkillList src={checkMarkIcon} skill="Node.js" />
+      <h1 className={styles.sectionTitle}>Competências</h1>
+      {/* Botões de filtro de categoria */}
+      <div className={styles.categoryButtons}>
+        {skillsByCategory.map((category, index) => (
+          <button
+            key={index}
+            className={selectedCategory === category.title ? styles.activeButton : styles.button}
+            onClick={() => handleCategoryChange(category.title)}
+          >
+            {category.title}
+          </button>
+        ))}
       </div>
-      <hr />
+      {/* Lista de habilidades filtradas pela categoria selecionada */}
       <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="Vue" />
-        <SkillList src={checkMarkIcon} skill="React" />
-        <SkillList src={checkMarkIcon} skill="Next" />
-        <SkillList src={checkMarkIcon} skill="Python" />
-      </div>
-      <hr />
-      <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="Laravel" />
-        <SkillList src={checkMarkIcon} skill="Lumen" />
-        <SkillList src={checkMarkIcon} skill="Rest API" />
-        <SkillList src={checkMarkIcon} skill="Json" />
-        <SkillList src={checkMarkIcon} skill="Tailwind CSS" />
-        <SkillList src={checkMarkIcon} skill="Bootstrap" />
-        <SkillList src={checkMarkIcon} skill="Rabbitmq" />
-        <SkillList src={checkMarkIcon} skill="Docker" />
-      </div>
-      <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="PL/SQL" />
-        <SkillList src={checkMarkIcon} skill="MySQL" />
-        <SkillList src={checkMarkIcon} skill="PostgreSQL" />
-        <SkillList src={checkMarkIcon} skill="Git" />
-        <SkillList src={checkMarkIcon} skill="GitLab" />
+        {skillsByCategory
+          .find((category) => category.title === selectedCategory)
+          .skills.map((skill, index) => (
+            <SkillList
+              key={index}
+              src={`${devIconBaseUrl}${skill}/${skill}-${iconPrefix}.svg`}
+              skill={skill.toUpperCase()}
+              className={styles.card}
+            />
+          ))}
       </div>
     </section>
   );
